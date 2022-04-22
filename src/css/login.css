@@ -1,0 +1,8 @@
+@media screen and (max-width: 773px){
+    img[alt="Signup"]{
+        display: none;
+    }
+    div.grid-cols-12{
+        grid-template-columns: repeat(5, minmax(0, 1fr))
+    }
+}
