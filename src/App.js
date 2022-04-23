@@ -10,8 +10,9 @@ import {useState} from 'react'
 function App() {
   const [user, setUser] = useState(null);
   const [members, setMembers] = useState(null);
+  const [posters, setPosters] = useState(null)
   return (
-    <AppContext.Provider value={{user, setUser, members, setMembers}}>
+    <AppContext.Provider value={{user, setUser,posters, setPosters, members, setMembers}}>
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Home />} />
