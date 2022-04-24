@@ -3,7 +3,7 @@ import Navigation from '../components/Navigation'
 import { AppContext } from '../context/appContext';
 import {useNavigate} from 'react-router-dom'
 import {KeyboardArrowDown, ContentCopy, InfoOutlined, FavoriteBorder} from '@mui/icons-material'
-import {Avatar, Button} from '@mui/material'
+import {Avatar, Button, CircularProgress} from '@mui/material'
 import {BsImage, BsEmojiSmile} from 'react-icons/bs'
 import Picker from 'emoji-picker-react'
 import '../css/login.css'
@@ -73,10 +73,12 @@ useEffect(()=>{
     }
     setMsg("");
   };
-  const messageDiv = document.querySelector('div.message')
+  const messageDiv = document.querySelector('div.message');
+  const [images, setImages] = useState([]);
+  const [preview, setPreview] = useState([])
   useEffect(()=>{
     if(messageDiv) messageDiv.scrollTop = messageDiv.scrollHeight;
-  },[messages, messageDiv]);
+  },[messages, messageDiv, preview]);
   socket.off('all-room-messages').on('all-room-messages', (payload)=>{
     setMessages(payload);
   });
@@ -87,8 +89,39 @@ useEffect(()=>{
     setMsg("")
   };
   const handleImagemsg = (e) =>{
-    console.log(e.target.files)
+    setImages([...e.target.files]);
   }
+  useEffect(()=>{
+    setPosting(true)
+    let image = [];
+    for(let i=0; i<images.length; i++){
+      image.push(URL.createObjectURL(images[i]));
+    }
+    setPreview([...image]);
+    const post = async() =>{
+      if(images.length > 0){
+        for(let i=0; i<images.length; i++){
+          setPosting(true);
+          const data = new FormData();
+          data.append('file', images[i]);
+          data.append('upload_preset', 'z2u2gblf');
+          let res = await fetch('https://api.cloudinary.com/v1_1/doubfwhsl/image/upload', {
+            method: 'post',
+            body: data
+          })
+          const urlData = await res.json();
+          let time = goodTime();
+          let date = goodDate();
+          socket.emit('sendMessage', user._id, room, urlData.url, time, date);
+          setPosting(false);
+          setImages([])
+        }
+        
+      }
+    }
+    post()
+  }, [images, messageDiv]);
+  const [posting, setPosting] = useState(false);
   return (
     <>
     <Navigation link="chat"/>
@@ -136,13 +169,18 @@ useEffect(()=>{
                   {message.messages.map((newMessage, index)=>(
                     <div key={index} className={`${newMessage.sender === user._id ? 'justify-end' : 'justify-start'} mb-2 px-4 flex`}>
                       <div className={`flex ${newMessage.sender === user._id ? 'items-end' : 'items-start'} flex-col`}>
-                        <div className={`${newMessage.sender === user._id ? 'bg-gray-200' : 'bg-white border-2 border-solid border-gray-200'} px-3 py-1 rounded-[20px] min-w-[2rem] max-w-[20rem] break-words ${newMessage.message === '❤️' && 'ken text-3xl'}`}>{newMessage.message}</div>
-                        <div className="font-semibold text-lg">{newMessage.time}</div>
+                        <div className={`${newMessage.sender === user._id ? 'bg-gray-200' : 'bg-white border-2 border-solid border-gray-200'} px-3 py-1 ${newMessage.message.includes('http://res.cloudinary.com/doubfwhsl/image/upload/') && 'ken'} rounded-[20px] min-w-[2rem] max-w-[20rem] break-words ${newMessage.message === '❤️' && 'ken text-3xl'}`}>
+                        {newMessage.message.includes('http://res.cloudinary.com/doubfwhsl/image/upload/') ? <img src={newMessage.message} className="rounded-[10px] h-[12rem]" alt="getImage"/> : newMessage.message}
+                        </div>
+                        {/* <div className="font-semibold text-lg">{newMessage.time}</div> */}
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
+            ))}
+            {posting && preview.map((prev, index)=>(
+              <div key={index} className="flex justify-end"><div className="relative"><img src={prev} className="rounded-[10px] opacity-[0.8] h-[12rem]" alt="sendImg"/><CircularProgress className="absolute top-[50%] left-[50%]"/></div></div>
             ))}
           </div> : <div className="h-full w-full flex items-center justify-center font-semibold text-2xl"><span>Please a user</span><BsEmojiSmile style={{backgroundColor: 'yellow', color: 'red', borderRadius: '50%'}}/></div>}
           {chatt && <div className="w-full flex justify-center absolute bottom-5">
@@ -158,7 +196,7 @@ useEffect(()=>{
                 <FavoriteBorder onClick={handleFavorites} sx={{width: '1.7rem', height: '1.7rem'}} className="cursor-pointer"/>
                 </>
                 }
-                <input type="file" id="sendImage" onChange={handleImagemsg} hidden/>
+                <input type="file" id="sendImage" accept="image/*" onChange={handleImagemsg} hidden multiple/>
               </div>
             </form>
           </div>}
