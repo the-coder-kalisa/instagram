@@ -131,9 +131,9 @@ useEffect(()=>{
                 <h1 className="text-gray-500 text-center py-2">{message._id}</h1>
                 <div>
                   {message.messages.map((newMessage, index)=>(
-                    <div key={index} className={`${newMessage.sender === user._id ? 'justify-end' : 'justify-start'} mb-4 px-4 flex`}>
+                    <div key={index} className={`${newMessage.sender === user._id ? 'justify-end' : 'justify-start'} mb-2 px-4 flex`}>
                       <div className={`flex ${newMessage.sender === user._id ? 'items-end' : 'items-start'} flex-col`}>
-                        <div className={`${newMessage.sender === user._id ? 'bg-gray-200' : 'bg-white border-2 border-solid border-gray-200'} px-4 py-2 rounded-[20px] text-xl min-w-[2rem] max-w-[20rem] break-words ${newMessage.message === '❤️' && 'ken text-3xl'}`}>{newMessage.message}</div>
+                        <div className={`${newMessage.sender === user._id ? 'bg-gray-200' : 'bg-white border-2 border-solid border-gray-200'} px-3 py-1 rounded-[20px] min-w-[2rem] max-w-[20rem] break-words ${newMessage.message === '❤️' && 'ken text-3xl'}`}>{newMessage.message}</div>
                         <div className="font-semibold text-lg">{newMessage.time}</div>
                       </div>
                     </div>
