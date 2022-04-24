@@ -1,8 +1,8 @@
 import axios from 'axios';
 import {io} from 'socket.io-client'
 const instance = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: 'https://instagram-clone-backend1223.herokuapp.com'
 })
-const socketUrl = 'http://localhost:5000'
+const socketUrl = 'https://instagram-clone-backend1223.herokuapp.com'
 export const socket = io(socketUrl);
 export default instance;
