@@ -1,5 +1,5 @@
 import React,{useEffect, useContext} from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Navigation from '../components/Navigation'
 import { AppContext } from '../context/appContext';
 import {MoreHoriz, FavoriteBorder, Send, BookmarkBorder} from '@mui/icons-material'
@@ -24,11 +24,11 @@ function Home() {
               poster.posts.length > 0 && poster.posts.map((post, index)=>(
                 <div key={index} className="w-full bg-white">
                   <div className="flex px-3 h-16 w-full justify-between items-center">
-                    <div className="items-center flex gap-2">
+                    <Link to="" className="cursor-pointer items-center flex gap-2">
                       {poster.profile !== "" ? <img src={poster.profile} alt="poster"/> : <Avatar />}
                       <span className="font-semibold text-lg">{poster.username}</span>
-                    </div>
-                    <MoreHoriz />
+                    </Link>
+                    <MoreHoriz className="cursor-pointer"/>
                   </div>
                   <div className="overflow-auto img flex">
                     {post.post.map((post, index)=>(
@@ -36,13 +36,14 @@ function Home() {
                     ))}
                   </div>
                   <div className="flex items-center justify-between w-full">
-                    <div className="flex gap-2 items-center">
-                      <FavoriteBorder sx={{width: '1.7rem', height: '1.7rem'}}/>
-                      <BsChat style={{width: '1.6rem', height: '1.6rem', transform: 'rotate(270deg)'}}/>
-                      <Send sx={{width: '1.7rem', height: '1.7rem', transform: 'rotate(-20deg)'}}/>
+                    <div className="flex gap-2 h-10 items-center">
+                      <FavoriteBorder sx={{width: '1.7rem', height: '1.7rem'}} className="cursor-pointer"/>
+                      <BsChat style={{width: '1.6rem', height: '1.6rem', transform: 'rotate(270deg)'}} className="cursor-pointer"/>
+                      <Send sx={{width: '1.7rem', height: '1.7rem', transform: 'rotate(-20deg)'}} className="cursor-pointer"/>
                     </div>
-                    <BookmarkBorder sx={{width: '1.7rem', height: '1.7rem'}}/>
+                    <BookmarkBorder sx={{width: '1.7rem', height: '1.7rem'}} className="cursor-pointer"/>
                   </div>
+                  {post.caption !== "" && <div><span className="font-semibold text-lg">{poster.username}</span><span>:{post.caption}</span></div>}
                 </div>
              ))
             ))

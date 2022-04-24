@@ -87,6 +87,7 @@ function Navigation ({link}){
         setMrPost(false);
         setFiles([]);
         setPreview([]); 
+        setFinalShare(false)
     }
     const [files, setFiles] = useState([]);
     const [preview, setPreview] = useState([]);
@@ -110,10 +111,11 @@ function Navigation ({link}){
     const cancelPost = () =>{
         setFiles([]);
         setPreview([]);
-        setDiscard(false)
+        setDiscard(false);
+        setFinalShare(false);
     }
     const cancelThem = ()=>{
-        setDiscard(false)
+        setDiscard(false);
     }
     const [showers, setShowers] = useState(false)
     const uploadAnother = () =>{
@@ -305,14 +307,14 @@ function Navigation ({link}){
                         {profile && icon.function !== "loved" && icon.function !== "post" &&
                         <div className="relative">
                         <ArrowDropUp className="absolute -top-4" sx={{width: '3rem', height: '3rem', color: 'gray'}}/>
-                        <div className="bg-white rounded-md border-2 border-solid border-gray-300 shadow-md drop-shadow-md absolute top-3 right-2 w-[15rem] ">
+                        <div className="bg-white rounded-md z-50 border-2 border-solid border-gray-300 shadow-md drop-shadow-md absolute top-3 right-2 w-[15rem] ">
                             {views.map((view, index)=>(
                                 <Link to="" key={index} className="flex w-full hover:bg-gray-200 py-2 pl-2 cursor-pointer gap-3 items-center">
                                     {view.icon}
                                     <span className="font-[300] text-gray-600">{view.name}</span>
                                 </Link>
                             ))}
-                            <Button style={{color: 'black', display: 'flex', justifyContent: 'flex-start', borderTop: '2px solid gray', paddingTop: '0.5rem'}} className="w-full">Log Out</Button>
+                            <Button style={{color: 'black', display: 'flex', justifyContent: 'flex-start', borderTop: '2px solid gray', paddingTop: '0.5rem'}} className="w-full" onClick={()=> alert('hello')}>Log Out</Button>
                             </div>
                             </div>
                             }
