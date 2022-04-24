@@ -85,6 +85,9 @@ useEffect(()=>{
     let date = goodDate();
     socket.emit('sendMessage', user._id, room, '❤️', time, date);
     setMsg("")
+  };
+  const handleImagemsg = (e) =>{
+    console.log(e.target.files)
   }
   return (
     <>
@@ -155,7 +158,7 @@ useEffect(()=>{
                 <FavoriteBorder onClick={handleFavorites} sx={{width: '1.7rem', height: '1.7rem'}} className="cursor-pointer"/>
                 </>
                 }
-                <input type="file" id="sendImage" hidden/>
+                <input type="file" id="sendImage" onChange={handleImagemsg} hidden/>
               </div>
             </form>
           </div>}
