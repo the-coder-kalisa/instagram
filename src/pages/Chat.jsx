@@ -170,7 +170,7 @@ useEffect(()=>{
                     <div key={index} className={`${newMessage.sender === user._id ? 'justify-end' : 'justify-start'} mb-2 px-4 flex`}>
                       <div className={`flex ${newMessage.sender === user._id ? 'items-end' : 'items-start'} flex-col`}>
                         <div className={`${newMessage.sender === user._id ? 'bg-gray-200' : 'bg-white border-2 border-solid border-gray-200'} px-3 py-1 ${newMessage.message.includes('http://res.cloudinary.com/doubfwhsl/image/upload/') && 'ken'} rounded-[20px] min-w-[2rem] max-w-[20rem] break-words ${newMessage.message === '❤️' && 'ken text-3xl'}`}>
-                        {newMessage.message.includes('http://res.cloudinary.com/doubfwhsl/image/upload/') ? <img src={newMessage.message} className="rounded-[10px] h-[12rem]" alt="getImage"/> : newMessage.message}
+                        {newMessage.message.includes('http://res.cloudinary.com/doubfwhsl/image/upload/') ? <img src={newMessage.message} className="rounded-[10px] max-w-[12rem]" alt="getImage"/> : newMessage.message}
                         </div>
                         {/* <div className="font-semibold text-lg">{newMessage.time}</div> */}
                       </div>
@@ -180,7 +180,7 @@ useEffect(()=>{
               </div>
             ))}
             {posting && preview.map((prev, index)=>(
-              <div key={index} className="flex justify-end"><div className="relative"><img src={prev} className="rounded-[10px] opacity-[0.8] h-[12rem]" alt="sendImg"/><CircularProgress className="absolute top-[50%] left-[50%]"/></div></div>
+              <div key={index} className="flex justify-end"><div className="relative"><img src={prev} className="rounded-[10px] opacity-[0.8] max-w-[12rem]" alt="sendImg"/><CircularProgress className="absolute top-[50%] left-[50%]"/></div></div>
             ))}
           </div> : <div className="h-full w-full flex items-center justify-center font-semibold text-2xl"><span>Please a user</span><BsEmojiSmile style={{backgroundColor: 'yellow', color: 'red', borderRadius: '50%'}}/></div>}
           {chatt && <div className="w-full flex justify-center absolute bottom-5">
